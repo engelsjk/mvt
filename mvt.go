@@ -91,12 +91,12 @@ func (f *Feature) AddTag(key string, value interface{}) {
 	f.tags = append(f.tags, tag{key, value})
 }
 
-// MoveTo move to a point. The tile is 256x256.
+// MoveTo move to a point. The tile is 512x512.
 func (f *Feature) MoveTo(x, y float64) {
 	f.geometry = append(f.geometry, command{moveTo, x, y})
 }
 
-// LineTo draws a line to a point. The tile is 256x256.
+// LineTo draws a line to a point. The tile is 512x512.
 func (f *Feature) LineTo(x, y float64) {
 	f.geometry = append(f.geometry, command{lineTo, x, y})
 }
@@ -236,8 +236,8 @@ func (f *Feature) append(
 				i++
 			case moveTo, lineTo:
 				for j := 0; j < count; j++ {
-					x := int64(f.geometry[i+j].x / 256.0 * extent)
-					y := int64(f.geometry[i+j].y / 256.0 * extent)
+					x := int64(f.geometry[i+j].x / 512.0 * extent)
+					y := int64(f.geometry[i+j].y / 512.0 * extent)
 					relx, rely := x-lastx, y-lasty
 					lastx, lasty = x, y
 					gpb = appendVarint(gpb, relx)
@@ -396,7 +396,7 @@ const (
 	gMaxLat   = 85.05112878
 	gMinLon   = -180.0
 	gMaxLon   = 180.0
-	gTileSize = 256
+	gTileSize = 512
 )
 
 // LatLonXY converts a lat/lon to an point x/y for the specified map tile.
@@ -406,7 +406,7 @@ func LatLonXY(lat, lon float64, tileX, tileY, tileZ int) (x, y float64) {
 	lx := (lon + 180) / 360
 	sinLat := math.Sin(lat * math.Pi / 180)
 	ly := 0.5 - math.Log((1+sinLat)/(1-sinLat))/(4*math.Pi)
-	mapSize := float64(uint64(256) << uint(tileZ))
+	mapSize := float64(uint64(512) << uint(tileZ))
 	pixelX := clamp(lx*mapSize+0, 0, mapSize)
 	pixelY := clamp(ly*mapSize+0, 0, mapSize)
 	return pixelX - float64(tileX<<8), pixelY - float64(tileY<<8)
