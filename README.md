@@ -8,7 +8,7 @@ Draw [Mapbox Vector Tiles](https://www.mapbox.com/vector-tiles/) with ease.
 
 - Mapbox Vector Tiles 2.1 support
 - MoveTo, LineTo, CubicTo, QuadraticTo
-- Defined 256x256 canvas
+- Defined 512x512 canvas
 - Uses floating points
 - Add tags and IDs to features
 - Fast encoding to MVT protobufs
